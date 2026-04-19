@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Application Tracker</title>
+
+    <!-- Tailwindcsss -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        *{
+        font-family: "Geist", sans-serif;
+        }
+    </style>
+
 </head>
-<body>
-    <h1>Job Application Tracker</h1>
+
+<body class="bg-[#F8FAFC]">
+    <section class="mt-16 px-1 container mx-auto      ">
+        <h1 class="font-bold text-4xl mb-5 text-[#002C5C]">Job Application Tracker</h1>
+        <div class="grid grid-cols-3 gap-4">
+            <div class="bg-white p-5 rounded-lg">
+                <p class="font-medium text-gray-700">Total</p>
+                <p class="font-bold text-2xl text-gray-800">0</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg">
+                <p class="font-medium text-gray-700">Interview</p>
+                <p class="font-bold text-2xl text-green-600">0</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg">
+                <p class="font-medium text-gray-700">Rejected</p>
+                <p class="font-bold text-2xl text-red-600">0</p>
+            </div>
+        </div>
+        <hr class="border-gray-300 my-8">
+    </section>
+
+    <main>
+        <section>
+            <h1></h1>
+        </section>
+    </main>
+
 </body>
+
 </html>
