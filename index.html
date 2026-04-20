@@ -30,20 +30,20 @@
 </head>
 
 <body class="bg-[#F8FAFC] min-h-screen m-0">
-    <section class="pt-16 px-1 container mx-auto">
-        <h1 class="font-bold text-4xl mb-5 text-[#002C5C]">Job Application Tracker</h1>
+    <section class="pt-15 px-1 container mx-auto">
+        <h1 class="font-bold text-4xl mb-4 text-[#002C5C]">Job Application Tracker</h1>
         <div class="grid grid-cols-3 gap-4">
             <div class="bg-white p-5 rounded-lg">
                 <p class="font-medium text-gray-700">Total</p>
-                <p class="font-bold text-2xl text-gray-800">0</p>
+                <p id="total"  class="font-bold text-2xl text-gray-800">0</p>
             </div>
             <div class="bg-white p-5 rounded-lg">
-                <p class="font-medium text-gray-700">Interview</p>
-                <p class="font-bold text-2xl text-green-600">0</p>
+                <p  class="font-medium text-gray-700">Interview</p>
+                <p id="totalinterview" class="font-bold text-2xl text-green-600">0</p>
             </div>
             <div class="bg-white p-5 rounded-lg">
                 <p class="font-medium text-gray-700">Rejected</p>
-                <p class="font-bold text-2xl text-red-600">0</p>
+                <p id="totalrejected" class="font-bold text-2xl text-red-600">0</p>
             </div>
         </div>
         <hr class="border-gray-300 my-8">
@@ -56,37 +56,45 @@
                 <button class="text-gray-700">0 <span>jobs</span></button>
             </div>
             <div class="flex gap-2.5">
-                <button class="btn btn-primary px-10 text-white">All</button>
-                <button class="btn btn-soft px-5 text-gray-700">Interview</button>
-                <button class="btn btn-soft px-5 text-gray-700">Rejected</button>
+                <button onclick="toggleStyle('all-btn')" id ="all-btn" class="btn btn-primary px-10 text-white">All</button>
+                <button onclick="toggleStyle('interview-btn')" id="interview-btn" class="btn btn-soft px-5 text-gray-700">Interview</button>
+                <button onclick="toggleStyle('rejected-btn')" id="rejected-btn"class="btn btn-soft px-5 text-gray-700">Rejected</button>
             </div>
         </section>
 
-        <section class="px-1 container mx-auto mt-4 pb-16">
-            <div class="grid grid-cols-1 gap-5">
+        <!-- interview section -->
+
+        <section id="interview-list">
+
+        </section>
+
+        <section  class="px-1 container mx-auto mt-4 pb-16">
+            <div id="cardsection" class="grid grid-cols-1 gap-5">
 
                 <!-- CARD 1 -->
 
                 <div class="flex justify-between p-6 bg-white rounded-lg">
                     <div>
-                        <h1 class="font-semibold text-[18px] text-[#002C5C]">Mobile First Corp</h1>
-                        <p class="text-gray-700">React Native Developer</p>
+                        <h1 class="company-name font-semibold text-[18px] text-[#002C5C]">Mobile First Corp</h1>
+                        <p class="designation text-gray-700">React Native Developer</p>
 
                         <div class="flex mt-3 mb-3 items-center gap-2 text-sm text-gray-700">
-                            <span>Remote</span><i class="fa-solid fa-circle text-[5px] text-gray-400"></i>
-                            <span>Full-time</span><i class="fa-solid fa-circle text-[5px] text-gray-400"></i>
-                            <span>$130,000 - $175,000</span>
+                            <span class="way">Remote</span><i class="fa-solid fa-circle text-[5px] text-gray-400"></i>
+                            <span class="time">Full-time</span><i class="fa-solid fa-circle text-[5px] text-gray-400"></i>
+                            <span class="salary">$130,000 - $175,000</span>
                         </div>
 
-                        <button class="btn bg-[#EEF4FF] font-semibold mb-2 mt-2 text-[#002C5C]">Not Applied</button>
+                        <button class="btn-sts btn bg-[#EEF4FF] font-semibold mb-2 mt-2 text-[#002C5C]">Not Applied</button>
 
-                        <p class="text-sm text-gray-800 mb-5">
+                        
+
+                        <p class="description text-sm text-gray-800 mb-5">
                             Build cross-platform mobile applications using React Native. Work on products used by
                             millions of users worldwide.
                         </p>
 
                         <div class="flex gap-3">
-                            <button class="btn font-semibold text-green-400 border border-green-400">Interview</button>
+                            <button class="btn-inter btn font-semibold text-green-400 border border-green-400">Interview</button>
                             <button class="btn font-semibold text-red-400 border border-red-400">Rejected</button>
                         </div>
                     </div>
@@ -334,6 +342,8 @@
             </div>
         </section>
     </main>
+
+    <script src="/script.js"></script>
 
 </body>
 
