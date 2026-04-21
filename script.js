@@ -1,7 +1,6 @@
 let interviewList = [];
 let rejectionList = [];
 
-
 const totalJobs = document.getElementById('total');
 const totalInterview = document.getElementById('totalinterview');
 const totalRejected = document.getElementById('totalrejected');
@@ -14,13 +13,71 @@ const allBtn = document.getElementById('all-btn');
 const interviewBtn = document.getElementById('interview-btn');
 const rejectionBtn = document.getElementById('rejected-btn');
 
+const totalBtn = document.getElementById('total-btn');
+
+
+
+function toggleEmptyState(type) {
+    const empty = document.getElementById("empty-state");
+
+    let count = 0;
+
+    if (type === "all") {
+        count = document.querySelectorAll('#cardsection .job-card').length;
+    }
+    else if (type === "interview") {
+        count = interviewList.length;
+    }
+    else {
+        count = rejectionList.length;
+    }
+
+    if (count === 0) {
+        empty.classList.remove("hidden");
+    } else {
+        empty.classList.add("hidden");
+    }
+}
+
+
+function getCurrentTab() {
+    if (!cardSection.classList.contains('hidden')) {
+        return "all";
+    }
+    else if (!interviewSection.classList.contains('hidden')) {
+        return "interview";
+    }
+    else {
+        return "rejected";
+    }
+}
+
+
 function getTotal() {
     totalJobs.innerText = document.querySelectorAll('#cardsection .job-card').length;
     totalInterview.innerText = interviewList.length;
     totalRejected.innerText = rejectionList.length;
 }
 
+
+function updateCornerTotal(type) {
+
+    if (type === "all") {
+        totalBtn.innerText =
+            document.querySelectorAll('#cardsection .job-card').length + " jobs";
+    }
+    else if (type === "interview") {
+        totalBtn.innerText = interviewList.length + " jobs";
+    }
+    else {
+        totalBtn.innerText = rejectionList.length + " jobs";
+    }
+}
+
+
 getTotal();
+updateCornerTotal("all");
+toggleEmptyState("all");
 
 
 function toggleStyle(id) {
@@ -40,18 +97,23 @@ function toggleStyle(id) {
 
     if (id === 'all-btn') {
         cardSection.classList.remove('hidden');
+        updateCornerTotal("all");
+        toggleEmptyState("all");
     }
-
     else if (id === 'interview-btn') {
         interviewSection.classList.remove('hidden');
         renderInterview();
+        updateCornerTotal("interview");
+        toggleEmptyState("interview");
     }
-
     else if (id === 'rejected-btn') {
         rejectionSection.classList.remove('hidden');
         renderRejection();
+        updateCornerTotal("rejected");
+        toggleEmptyState("rejected");
     }
 }
+
 
 
 document.querySelector('main').addEventListener('click', function (event) {
@@ -62,17 +124,14 @@ document.querySelector('main').addEventListener('click', function (event) {
     const companyName = jobCard.querySelector('.company-name').innerText;
 
     function getData() {
-
-        let data = {};
-
-        data.companyName = companyName;
-        data.designation = jobCard.querySelector('.designation').innerText;
-        data.way = jobCard.querySelector('.way').innerText;
-        data.time = jobCard.querySelector('.time').innerText;
-        data.salary = jobCard.querySelector('.salary').innerText;
-        data.description = jobCard.querySelector('.description').innerText;
-
-        return data;
+        return {
+            companyName,
+            designation: jobCard.querySelector('.designation').innerText,
+            way: jobCard.querySelector('.way').innerText,
+            time: jobCard.querySelector('.time').innerText,
+            salary: jobCard.querySelector('.salary').innerText,
+            description: jobCard.querySelector('.description').innerText
+        };
     }
 
     if (event.target.classList.contains('btn-inter')) {
@@ -87,12 +146,7 @@ document.querySelector('main').addEventListener('click', function (event) {
         }
 
         jobCard.querySelector('.btn-sts').innerText = "Interview";
-
-        renderInterview();
-        renderRejection();
-        getTotal();
     }
-
 
     else if (event.target.classList.contains('btn-reject')) {
 
@@ -106,11 +160,8 @@ document.querySelector('main').addEventListener('click', function (event) {
         }
 
         jobCard.querySelector('.btn-sts').innerText = "Rejected";
-
-        renderInterview();
-        renderRejection();
-        getTotal();
     }
+
 
     else if (event.target.closest('.delete-btn')) {
 
@@ -118,11 +169,16 @@ document.querySelector('main').addEventListener('click', function (event) {
         rejectionList = rejectionList.filter(i => i.companyName !== companyName);
 
         jobCard.remove();
-
-        renderInterview();
-        renderRejection();
-        getTotal();
     }
+
+
+    renderInterview();
+    renderRejection();
+    getTotal();
+
+    const currentTab = getCurrentTab();
+    updateCornerTotal(currentTab);
+    toggleEmptyState(currentTab);
 });
 
 
@@ -134,6 +190,7 @@ function renderInterview() {
     });
 }
 
+
 function renderRejection() {
     rejectionSection.innerHTML = "";
 
@@ -142,37 +199,45 @@ function renderRejection() {
     });
 }
 
+
+
 function createCard(item) {
     return `
-    <div class="job-card flex justify-between p-6 bg-white rounded-lg">
-                    <div>
-                        <h1 class="company-name font-semibold text-[18px] text-[#002C5C]">${item.companyName}</h1>
-                        <p class="designation text-gray-700">${item.designation}</p>
+    <div class="job-card flex justify-between p-6 bg-white rounded-lg mb-5">
+        <div>
+            <h1 class="company-name font-semibold text-[18px] text-[#002C5C]">${item.companyName}</h1>
+            <p class="designation text-gray-700">${item.designation}</p>
 
-                        <div class="flex mt-3 mb-3 items-center gap-2 text-sm text-gray-700">
-                            <span class="way">${item.way}</span><i class="fa-solid fa-circle text-[5px] text-gray-400"></i>
-                            <span class="time">${item.time}</span><i class="fa-solid fa-circle text-[5px] text-gray-400"></i>
-                            <span class="salary">${item.salary}</span>
-                        </div>
+            <div class="flex mt-3 mb-3 items-center gap-2 text-sm text-gray-700">
+                <span class="way">${item.way}</span>
+                <i class="fa-solid fa-circle text-[5px] text-gray-400"></i>
+                <span class="time">${item.time}</span>
+                <i class="fa-solid fa-circle text-[5px] text-gray-400"></i>
+                <span class="salary">${item.salary}</span>
+            </div>
 
-                        <button class="btn-sts btn bg-[#EEF4FF] font-semibold mb-2 mt-2 text-[#002C5C]">${item.status}</button>
+            <button class="btn-sts btn bg-[#EEF4FF] font-semibold mb-2 mt-2 text-[#002C5C]">
+                ${item.status}
+            </button>
 
-                        
+            <p class="description text-sm text-gray-800 mb-5">
+                ${item.description}
+            </p>
 
-                        <p class="description text-sm text-gray-800 mb-5">
-                            ${item.description}
-                        </p>
+            <div class="flex gap-3">
+                <button class="btn-inter btn font-semibold text-green-400 border border-green-400">
+                    Interview
+                </button>
+                <button class="btn-reject btn font-semibold text-red-400 border border-red-400">
+                    Rejected
+                </button>
+            </div>
+        </div>
 
-                        <div class="flex gap-3">
-                            <button class="btn-inter btn font-semibold text-green-400 border border-green-400">Interview</button>
-                            <button class="btn-reject btn font-semibold text-red-400 border border-red-400">Rejected</button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <button class="delete-btn w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
-                    </div>
-                </div>`;
+        <div>
+            <button class="delete-btn w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center">
+                <i class="fa-regular fa-trash-can"></i>
+            </button>
+        </div>
+    </div>`;
 }
